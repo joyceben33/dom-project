@@ -15,13 +15,13 @@
     </div>
     <section class="add-new-post-container">
         <H2>Add a New Post</H2>
-        <div class="input-group mb-3">
-            <input id="post-text" type="text" class="form-control" placeholder="Post Text" aria-label="post-text" aria-describedby="basic-addon1">
+        <!-- the two post input fields -->
+        <div class="form-group">
+            <input type="text" id="post-text" class="form-control" placeholder="Post Text">
         </div>
-        <div class="input-group mb-3">
-            <input id="username-post" type="text" class="form-control" placeholder="Username" aria-label="username" aria-describedby="basic-addon1">
+        <div class="form-group">
+            <input type="text" id="post-username" class="form-control" placeholder="Username">
         </div>
-        <br>
         <!-- add id to button so we can listen for events "post-button" -->
         <button id="post-button" class="btn btn-default btn-primary">Post</button>
     </section>
