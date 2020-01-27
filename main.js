@@ -5,74 +5,94 @@
 //the array should populate once the user has filled in both fields and pressed the post button
 var posts = [];
 
+
 //TODO: Create global variables using jquery to get the element
 //TODO: Use the global variables to listen for events
-var postButton = $('#post-button').on('click', function () {
+$('#post-button').on('click', function () {
+    addPost();
+});
+
+function addPost() {
     //TODO: Grab the data from both input fields
     var postText = $('#post-text').val();
     var usernamePost = $('#post-username').val();
     // console error if postText or usernamePost return undefined
     if (postText === "" || usernamePost === "") {
-        console.error('Please fill out BOTH the Post Text & Username field!')
-        alert('Please fill out BOTH the Post Text & Username field!')
-        return false
-    } else {
-        // TODO: Create a object that will store the values that were just retrieved
-        var newPost = {
-            text: postText,
-            user: usernamePost,
-            postComment: []
-        }
-        //TODO: Need a way to push an object to the postComment Key
-        var newComment = {
-            commentText: 'Hello',
-            commentUser: 'Ben'
-        }
-        //Now push the newPost {} into the posts []
-        posts.push(newPost); 
-        //Now push the newComment {} into the array associate it with the postComment KEY
-        newPost.postComment.push(newComment);
-        //Invoke the renderPosts function so that our page will update with ne post every time we write one
-        renderPosts();
-        return true
+        alert('Please fill out BOTH the Post Text & Username field!');
+        throw new Error('Please fill out BOTH the Post Text & Username field!');
     }
-});
+    // Create a counter
+    var postCount = posts.length + 1;
+    // TODO: Create a object that will store the values that were just retrieved
+    var post = {
+        id: 'post-' + postCount,
+        text: postText,
+        user: usernamePost,
+        postComment: [],
+    }
 
-//TODO: Create a renderPosts function
-var renderPosts = function() {
-    //Clear posts div for re-rendering 
-    $('.posts').empty();
-    // Create a for each loop that will allow the page to render all the objects within the posts []
-    return posts.forEach(function(post) {
-        // input values fo the post text and Username
-        var postText = post.text;
-        var postUser = post.user;
-        $('.posts').append("<div class='post'>" + postText + "<br>" + "Posted By: " + postUser + "</div>");
-        //This creates the comment container 
-        $('.post').append("<div class='comment-container form-group'></div>");
-        // The renderComment should be invoked every time this forEach method is run
-        renderComment();
-    });
+    //Now push the newPost {} into the posts []
+    posts.push(post);
+
+    // Added post to the DOM
+    $('.posts').prepend('<div id="' + post.id + '" class="post">' + postText + '<br>' + 'Posted By: ' + usernamePost + '</div>');
+    //This creates the comment container 
+    $('.post').append("<div class='comment-container form-group'></div>");
+    //Elements within the comment container
+    $('.comment-container').append('<div class="posted-comments"></div>');
+    $('.comment-container').append('<input type="text" class="comment-text form-control col-xs-3" placeholder="Comment Text" aria-label="Small">');
+    $('.comment-container').append('<input type="text" class="comment-username form-control col-xs-3" placeholder="Username" aria-label="Small">');
+    $('.comment-container').append('<button class="comment-button btn btn-default btn-primary">Comment</button>');
 }
 
 // This piece below is commented out because it is for future use
-// var commentButton = $('.comment-container').on('click', '#comment-button', function () {});
+$('#comment-button').on('click', function () {
+    //TODO: Grab both input field from the comment-container class to store
+    var commentText = $('#comment-text').val();
+    var commentUsername = $('#comment-username').val();
+    // console error if postText or usernamePost return undefined
+    if (commentText === "" || commentUsername === "") {
+        console.error('Please fill out BOTH the Comment Text & Username field!')
+        alert('Please fill out BOTH the Comment Text & Username field!')
+        // return false
+    } else {
+        // TODO: Create a object that will store the values that were just retrieved
+        var newComment = {
+            commentText: commentText,
+            commentUser: commentUsername
+        }
+
+        //forEach loop
+        posts.forEach(function (post) {
+            //Now loop through the newpost key that points to an []
+            post.newPost.forEach(function (commentArray) {
+                commentArray.push(newComment);
+            })
+        })
+        //TODO: Need a way to push an object to the postComment Key
+        // //Now push the newComment {} into the array associate it with the postComment KEY
+        // posts.newPost.postComment.push(newComment);
+        //Invoke the renderComments function so that our page will update with new comments every time we write one
+
+        // renderComments();
+    }
 
 
+
+
+
+    // newPost.postComment.push(newComment);
+});
+
+console.log(posts)
 //There needs to be a render Comment function just like the render post 
 
-var renderComment = function() {
-    // Clear comment container div  for re rendering
-    $('.comment-container').empty();
+var renderComments = function () {
+    // Clear posted comment sections
+    $('#posted-comment-section').empty();
+    // posts.postComment.forEach(function(comment) {
+    //     $('#posted-comment-section').append(<p class="posted-comments"></p>);
+    // 
 
-    //Below is the comment container that is added every time a post is rendered to the page
-    $('.comment-container').append('<input id="comment-text" type="text" class="form-control col-xs-3" placeholder="Comment Text" aria-label="Small">');
-    $('.comment-container').append('<input id="comment-username" type="text" class="form-control col-xs-3" placeholder="Username" aria-label="Small">');
-    $('.comment-container').append('<button id="comment-button" class="btn btn-default btn-primary">Comment</button>');
-
-     // posts.postComment.forEach(function(comment) {
-        //     $('.post').append("<div class='comment-container'>" + comment + "</div>");
-
-
-        // })
+    // })
 }
